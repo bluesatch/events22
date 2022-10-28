@@ -32,6 +32,21 @@
  * 
  * 
  * condition ? do stuff : do something else 
+ * 
+ * 
+ * spread operator
+ * 
+ * arr = [...item]
+ * 
+ * [1, 2, 3]
+ * 1, 2, 3
+ * 
+ * 
+ * String Template Literal
+ * 
+ * var age = 42
+ * 
+ * var message = `I am ${age} years old` => I am 42 years old
  */
 
 // const foo =()=> {
@@ -51,10 +66,11 @@
 // baz == 8 ? console.log(baz) : null;
 
 const submitBtn = document.getElementById('submitBtn');
-
-let data = {};
+const memberCards = document.getElementById('memberCards')
+let members = []
 
 const subscribeUser =()=> {
+    let data = {};
     const fName = document.getElementById('fName').value;
     const lName = document.getElementById('lName').value;
     const email = document.getElementById('email').value;
@@ -71,18 +87,39 @@ const subscribeUser =()=> {
     data.date = date;
     data.planType = planType;
 
-    console.log(data);
+    addUser(data)
 }
 
+const addUser =(obj)=> {
+    members = [...members, obj];
+    buildCard(members)
+}   
+
+const buildCard =(arr)=> {
+    let card;
+    arr.forEach(item => {
+        card = `
+        <div class="col-md-3">
+                    <div class="card member-card">
+                        <img src="https://via.placeholder.com/50x50" alt="placeholder img" class="img-fluid" />
+                        <div class="card-body">
+                            <p id="lastName">${item.lastName}</p>
+                            <p id="firstName">${item.firstName}</p>
+                            <p id="plan">Plan: ${item.planType}</p>
+                        </div>
+                    </div>
+                </div>
+        `
+    }); 
+    memberCards.innerHTML+= card
+}
 const alertUser =()=>  alert('Please agree to terms and conditons')
 
-
-
-// console.log(submitBtn);
 submitBtn.addEventListener('click', (e)=> {
     e.preventDefault();
-    
     const terms = document.getElementById('terms');
-
     terms.checked ? subscribeUser() : alertUser();
+    console.log(members);
 })
+
+
